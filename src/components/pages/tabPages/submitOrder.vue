@@ -378,6 +378,8 @@
 import options from "../../../lib/city_data2017_element.js";
 import { Promise } from "q";
 import { promises } from "fs";
+//请求的方法
+import { getpopo} from "../../../api/submitOrder"
 export default {
   data() {
     return {
@@ -476,11 +478,20 @@ export default {
 
   methods: {
     // 获取联系人地址
-    async getAddress() {
-      let res = await this.$http.get("/api/member/address/list");
-      this.getAddressData = res.data;
+    // async getAddress() {
+    //   let res = await this.$http.get("/api/member/address/list");
+    //   this.getAddressData = res.data;
+    //   this.setAddressstyle(this.getAddressData);
+    // },
+    getAddress(){
+      getpopo().then(response=>{
+        this.getAddressData = response.data;
       this.setAddressstyle(this.getAddressData);
+      })
     },
+
+
+
     // 默认地址样式
     setAddressstyle(res) {
       res.forEach(val => {

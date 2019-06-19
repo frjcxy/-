@@ -195,6 +195,11 @@
   </div>
 </template>
 <script>
+import { log } from 'util';
+import { swiperData} from '../../../api/index';
+import { getCategoryData } from '../../../api/index';
+
+// import { swiperData} from '@/api/index';
 export default {
   data() {
     return {
@@ -217,28 +222,41 @@ export default {
 
   // vue的钩子
   created() {
-    this.swiperData();
+  //  this.swiperData();
     this.seen = false;
     // this.getSubjectData();
-    this.getCategoryData();
+    //分类数据
+    this.getCategoryList();
+    //获取轮播图
+    this.getlunbo();
   },
-
+  //方法
   methods: {
-    handleClick(tab, event) {},
+    // handleClick(tab, event) {},
     // 获取轮播图的数据
-    async swiperData() {
-      let res = await this.$http.get("/api/home/content");
-      this.swiperList = res.data.advertiseList;
-    },
+    // async swiperData() {
+    //   let res = await this.$http.get("/api/home/content");
+    //   this.swiperList = res.data.advertiseList;
+    // },
+    getlunbo() {
+        swiperData().then(response => {
+          // console.log(response);
+          this.swiperList = response.data.advertiseList;
+        });
+      },
 
     // 获取分类数据
-    async getCategoryData(){
-      let res =await this.$http.get('/api/home/getCategory')
-      console.log(res);
+    // async getCategoryData(){
+    //   let res =await this.$http.get('/api/home/getCategory')
+    //   console.log(res);
       
-      this.$store.state.setCategoryData = res.data
+    //   this.$store.state.setCategoryData = res.data
+    // },
+    getCategoryList(){
+      getCategoryData().then(response=>{
+        this.$store.state.setCategoryData = response.data
+      })
     },
-
     // 鼠标移入移出事件
     mouseOver(id) {
       this.seen = id;

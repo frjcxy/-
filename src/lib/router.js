@@ -246,7 +246,7 @@ let routes = [{
                     {
                         default: member,
                         memberCenter: site
-                    }
+                    },
                 },
 
                 //交易管理
