@@ -26,6 +26,7 @@
   
       <el-form-item>
         <el-button type="primary" @click="open">获取邮箱验证码</el-button>
+        <h1>邮箱验证</h1>
         <el-button type="primary">提交</el-button>
       </el-form-item>
     </el-form>
