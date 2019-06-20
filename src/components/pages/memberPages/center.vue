@@ -6,7 +6,8 @@
         您好，
         <i>5544464</i>
       </span>
-      <el-button class="btn">完善基本信息</el-button>
+      <router-link to="edit"> 
+      <el-button class="btn"> 完善基本信息</el-button></router-link>
     </div>
     <div class="userinfo">
       <div class="custom_b_left">

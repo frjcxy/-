@@ -53,7 +53,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="open">获取邮箱验证码</el-button>
-        <el-button type="primary">提交</el-button>
+        <el-button type="primary" >提交</el-button>
           <el-button type="primary" @click="reset('resetForm')">重置</el-button>
       </el-form-item>
     </el-form>

@@ -42,52 +42,52 @@
           </div>
         </div>
         <!-- 验证用户身份 -->
-        <div class="identity" v-show="identityShow">
+        <div class="identity" v-if="identityShow">
           <el-form
             class="pwdForm phone-way"
             v-show="phoneShow"
-            :model="ruleForm"
-            :rules="rules"
+            :model="ruleForm1"
+            :rules="rules1"
             label-width="80px"
-            ref="ruleForm"
+            ref="ruleForm1"
           >
             <el-form-item label="填写您的手机号码：" prop="phone">
-              <el-input v-model="ruleForm.phone" placeholder="填写11位长度手机号"></el-input>
+              <el-input v-model="ruleForm1.phone" placeholder="填写11位长度手机号"></el-input>
             </el-form-item>
             <el-form-item label="输入图片校验码：" prop="checkCode">
-              <el-input v-model="ruleForm.checkCode" placeholder="填写图片校验码"></el-input>
+              <el-input v-model="ruleForm1.checkCode" placeholder="填写图片校验码"></el-input>
               <div class="img-code">
                 <span class="code-style" @click="createCode">{{verificationCode}}</span>
               </div>
             </el-form-item>
-            <el-form-item label="输入手机验证码：" prop="verificationCode">
-              <el-input v-model="ruleForm.verificationCode" placeholder="填写手机收到的验证码"></el-input>
+            <el-form-item label="输入手机验证码：" prop="code">
+              <el-input v-model="ruleForm1.code" placeholder="填写手机收到的验证码"></el-input>
               <el-button type="warning" plain class="code-btn" @click="transmitCode">发送验证码</el-button>
             </el-form-item>
-            <el-form-item label>
-              <el-button type="warning" class="next" @click="confirmTheCode(),setPwd()">下一步</el-button>
+            <el-form-item>
+              <el-button type="warning" class="next" @click="setPwd('ruleForm1')">下一步</el-button>
               <a href="javascript:;" @click="isPhonehide">使用邮箱找回密码</a>
             </el-form-item>
           </el-form>
           <el-form
             class="pwdForm email-way"
             v-show="emailShow"
-            :model="ruleForm"
-            :rules="rules"
+            :model="ruleForm2"
+            :rules="rules2"
             label-width="80px"
-            ref="ruleForm"
+            ref="ruleForm2"
           >
-            <el-form-item label="填写您的邮箱：" prop="phone">
-              <el-input v-model="ruleForm.phone" placeholder="请填写邮箱号"></el-input>
+            <el-form-item label="填写您的邮箱：" prop="email">
+              <el-input v-model="ruleForm2.email" placeholder="请填写邮箱号"></el-input>
             </el-form-item>
             <el-form-item label="输入图片校验码：" prop="checkCode">
-              <el-input v-model="ruleForm.checkCode" placeholder="填写图片校验码"></el-input>
+              <el-input v-model="ruleForm2.checkCode" placeholder="填写图片校验码"></el-input>
               <div class="img-code">
                 <span class="code-style" @click="createCode">{{verificationCode}}</span>
               </div>
             </el-form-item>
-            <el-form-item label="输入邮箱验证码：" prop="verificationCode">
-              <el-input v-model="ruleForm.verificationCode" placeholder="填写邮箱收到的验证码"></el-input>
+            <el-form-item label="输入邮箱验证码：" prop="code">
+              <el-input v-model="ruleForm2.code" placeholder="填写邮箱收到的验证码"></el-input>
               <el-button type="warning" plain class="code-btn" @click="transmitCode">发送验证码</el-button>
             </el-form-item>
             <el-form-item label>
@@ -98,12 +98,12 @@
         </div>
 
         <!-- 设置密码 -->
-        <div class="set-pwd" v-show="setPwdIsShow=false">
-          <el-form :model="ruleForm" :rules="rules" label-width="80px" ref="ruleForm">
+        <div class="set-pwd" v-if="setPwdIsShow=false">
+          <el-form :model="ruleForm1" :rules="rules1" label-width="80px" ref="ruleForm1">
             <el-form-item label="密码:" prop="pass">
               <el-input
                 type="password"
-                v-model="ruleForm.pass"
+                v-model="ruleForm1.pass"
                 autocomplete="off"
                 placeholder="字母与数字组合至少6位"
               ></el-input>
@@ -111,7 +111,7 @@
             <el-form-item label="确认密码:" prop="checkPass">
               <el-input
                 type="password"
-                v-model="ruleForm.checkPass"
+                v-model="ruleForm1.checkPass"
                 autocomplete="off"
                 placeholder="字母与数字组合至少6位"
               ></el-input>
@@ -161,20 +161,27 @@ export default {
       // 邮箱找回
       emailShow: "false",
       // 设置密码
-      // setPwdIsShow:'false',
+      setPwdIsShow: "false",
 
       secondBgc: "",
       color: "",
       thirdBgc: "",
-      verificationCode: "", //生成的验证码
+      verificationCode: "", //图片验证码
       // 表单验证的数据
-      ruleForm: {
+      ruleForm1: {
         checkCode: "",
         phone: "",
-        QQ: ""
+        code: ""
       },
+      ruleForm2: {
+        checkCode: "",
+        email: "",
+        code: ""
+      },
+      // 手机验证码
+      phoneCode: "",
       // 表单验证的规则
-      rules: {
+      rules1: {
         phone: [
           { required: true, message: "请输入11位数手机号", trigger: "blur" },
           { min: 11, max: 11, message: "长度在11个字符", trigger: "blur" }
@@ -183,11 +190,24 @@ export default {
           { required: true, message: "请输入图片中的校验码", trigger: "blur" },
           { min: 4, max: 4, message: "长度在4个字符", trigger: "blur" }
         ],
-        verificationCode: [
+        code: [
           { required: true, message: "请输入手机验证码", trigger: "blur" },
           { min: 6, max: 6, message: "长度在6个字符", trigger: "blur" }
         ]
-      }
+      },
+      rules2: {
+        email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+        ],
+        checkCode: [
+          { required: true, message: "请输入图片中的校验码", trigger: "blur" },
+          { min: 4, max: 4, message: "长度在4个字符", trigger: "blur" }
+        ],
+        code: [
+          { required: true, message: "请输入手机验证码", trigger: "blur" },
+          { min: 6, max: 6, message: "长度在6个字符", trigger: "blur" }
+        ]
+      },
     };
   },
   methods: {
@@ -218,10 +238,6 @@ export default {
       this.identityShow = true;
       this.color = "#fff";
       this.secondBgc = "#018dda";
-    },
-
-    setPwd(){
-      this.setPwdIsShow=true
     },
 
     // 图片验证码
@@ -276,25 +292,67 @@ export default {
     },
     confirmTheCode: function() {
       //验证函数
-      var customerCode = this.ruleForm.checkCode.toUpperCase(); //把你输入的小写转化为大写
+      var customerCode = this.ruleForm1.checkCode.toUpperCase(); //把你输入的小写转化为大写
       if (customerCode == 0) {
         this.createCode();
-        this.ruleForm.checkCode = "";
+        this.ruleForm1.checkCode = "";
         alert("请输入验证码");
       } else if (customerCode != this.verificationCode) {
         this.createCode();
-        this.ruleForm.checkCode = "";
+        this.ruleForm1.checkCode = "";
         alert("验证码不正确，请重新输入");
       } else {
         alert("输入正确");
       }
     },
-
+    async getduanxin(){
+       let phone = this.ruleForm1.phone;
+          let res = await this.$http.get(
+            `/api/member/sso/getAuthCode?telephone=${phone}`
+          );
+          this.phoneCode = res.data;
+          console.log("发送了")
+    },
     //  发送验证码
     async transmitCode() {
-      let phone = this.ruleForm.phone;
-      console.log(phone);
-      let res = await this.$http.get(`/api/sso/getAuthCode?telephone=${phone}`);
+      if (this.ruleForm1.phone) {
+        if (this.ruleForm1.checkCode) {
+          // let phone = this.ruleForm1.phone;
+          // let res = await this.$http.get(
+          //   `/api/member/sso/getAuthCode?telephone=${phone}`
+          // );
+          // this.phoneCode = res.data;
+        } else {
+          this.$message({
+            message: "请输入图片验证码！",
+            type: "warning"
+          });
+        }
+      } else {
+        this.$message({
+          message: "请输入您手机号码！",
+          type: "warning"
+        });
+      }
+    },
+
+    setPwd(ruleForm) {
+      this.$refs[ruleForm].validate(valid => {
+        if (valid) {
+          // 数据正确
+          console.log( this.ruleForm1)
+          console.log(valid);
+          this.getduanxin()
+          
+
+        alert('成功')
+        } else {
+          // 数据错误
+          // this.$message.error("请正确输入用户名和密码");
+          alert('失败')
+          return false;
+        }
+      });
     }
   },
 

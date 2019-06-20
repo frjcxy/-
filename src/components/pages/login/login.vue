@@ -42,7 +42,7 @@
 
           <!-- <el-form-item prop="selfLogin">
             <el-checkbox class="check-login" checked style="margin: 0;">自动登录</el-checkbox>
-          </el-form-item> -->
+          </el-form-item>-->
           <el-form-item>
             <el-button
               type="warning"
@@ -105,7 +105,7 @@
           </el-form-item>
           <!-- <el-form-item>
             <el-checkbox class="check-login" checked style="margin: 0;">自动登录</el-checkbox>
-          </el-form-item> -->
+          </el-form-item>-->
           <el-form-item>
             <el-button
               type="warning"
@@ -132,6 +132,7 @@
 <script>
 // js-Cookies
 import Cookies from "js-cookie";
+import logi from "../../../api/login";
 export default {
   data() {
     // 验证手机号
@@ -273,16 +274,14 @@ export default {
     },
 
     // 账号密码登入验证
+
+
+
     async loginBtn(ruleForm1) {
       this.$refs[ruleForm1].validate(valid => {
         if (valid) {
           // 数据正确
-          this.$http
-            .post(
-              `/api/member/sso/login?username=${
-                this.ruleForm1.username
-              }&password=${this.ruleForm1.password}`,
-              this.ruleForm1
+          this.$http.post( `/api/member/sso/login?username=${this.ruleForm1.username}&password=${this.ruleForm1.password}`,this.ruleForm1
             )
             .then(res => {
               if (res.code === 404) {
@@ -297,7 +296,7 @@ export default {
                 Cookies.set("username", this.ruleForm1.username);
                 // 获取登录时间
                 this.nowLoginTime = new Date();
-                Cookies.set('loginTime',this.nowLoginTime)
+                Cookies.set("loginTime", this.nowLoginTime);
                 // 使用路由提供的方式进行跳转到上一页
                 this.$router.go(-1);
               }

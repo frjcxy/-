@@ -8,7 +8,7 @@
           <i class="el-icon-delete"></i>
           删除所选
         </span>
-        <span @click="addSiteFormVisible = true">
+        <span @click="newAddressForm = true">
           <i class="el-icon-plus"></i>
           新增
         </span>
@@ -24,15 +24,15 @@
         <el-table-column prop="operation" label="操作" show-overflow-tooltip></el-table-column>
       </el-table>
     </div>
-    <!-- 弹框 -->
-    <div class="add-site">
-      <el-dialog title="新增/修改收货地址" :visible.sync="addSiteFormVisible">
-        <el-form ref="form" label-width="100px" :model="ruleForm" :rules="rules">
-          <el-form-item label="收货人 :" placeholder="姓名" prop="name">
-            <el-input></el-input>
+  <!-- 新增地址弹出框 -->
+    <div class="new_address">
+      <el-dialog title="新增收货地址" :visible.sync="newAddressForm">
+        <el-form :model="ruleForm" label-position="right" label-width="100px" :rules="rules" ref="ruleForm">
+          <el-form-item label="收货人：" prop="name">
+            <el-input v-model="ruleForm.name" autocomplete="off" placeholder="收货人"></el-input>
           </el-form-item>
-          <el-form-item label="手机 :" placeholder="请填写正确的11位手机号码" prop="phone">
-            <el-input></el-input>
+          <el-form-item label="手机：" prop="phoneNumber">
+            <el-input v-model="ruleForm.phoneNumber" autocomplete="off" placeholder="请填写正确的11位手机号码"></el-input>
           </el-form-item>
           <el-form-item label="所在地区：" prop="address">
             <!-- 饿了吗ui的级联选择器 -->
@@ -43,13 +43,18 @@
               placeholder="请选择省 市 区"
             ></el-cascader>
           </el-form-item>
-          <el-form-item label="详细地址 :" placeholder="街道小区楼牌号等，无需重复填写省市区" prop="detailedAddress">
-            <el-input></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="addSiteFormVisible = false">确 定</el-button>
+          <el-form-item label="详细地址：" class="particular_content" prop="detailAddress">
+            <el-input
+              class="particular_input"
+              v-model="ruleForm.detailAddress"
+              autocomplete="off"
+              placeholder="街道、小区、楼牌号等，无需重复填写省市区"
+            ></el-input>
           </el-form-item>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitAddressForm('ruleForm'),newAddressForm=false">保 存</el-button>
+        </div>
       </el-dialog>
     </div>
   </div>
@@ -60,7 +65,7 @@ import options from "../../../../lib/city_data2017_element";
 export default {
   data() {
     return {
-      addSiteFormVisible: false,
+      newAddressForm: false,
       options,
       selectedOptions2: [],
       ruleForm: {

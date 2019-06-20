@@ -30,7 +30,9 @@
     <!-- 优惠券 -->
     <div class="discount-coupon">
       <h2>兑换优惠券</h2>
-      
+      <div class="box">
+        <div class="hollow-circles">nihaoyz</div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,5 +81,26 @@ export default {
       color: @textcolor;
     }
   }
+}
+.discount-coupon{
+  .hollow-circles {
+  width: 300px;
+  height: 100px;
+  position: relative;
+  background: #4e8ae1;
+  margin-bottom: 10px;
+  
+}
+.hollow-circles::after {
+  content: '';
+  position: absolute;
+  height: 5px;
+  width:100%;
+  left: 0;
+  bottom: -5px;
+  background-image: linear-gradient(to right, #0c79b8 5px, transparent 5px, transparent),
+  radial-gradient(10px circle at 10px 5px, transparent 5px, #00adb5 5px);
+  background-size: 15px 5px;
+}
 }
 </style>
