@@ -33,12 +33,14 @@
               </li>
             </ul>
           </div>
+          <div class="tupian">
           <a href="https://www.szlcsc.com/oversea/intro.html" class="advertising" target="_blank">
             <img
               class="catalog_img"
               src="https://alimg.szlcsc.com/upload/public/index/source/20190308/A409709A763414743E7C657AD68BE44A.jpg"
             >
           </a>
+          </div>
         </div>
       </el-col>
       <el-col :span="19" class="right-main">
@@ -366,6 +368,7 @@ export default {
           }
         }
       }
+     
     }
 
     .advertising {

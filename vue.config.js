@@ -8,7 +8,7 @@ module.exports = {
       open: true, //配置自动启动浏览器
       proxy: {
         '/api': {
-          target: 'http://192.168.1.111:9001/', //对应接口
+          target: 'http://192.168.0.108:9001/', //对应接口
           changeOrigin: true,
           ws: true,
           pathRewrite: {
@@ -16,7 +16,7 @@ module.exports = {
           }
         },
         '/ips': {
-          target: 'http://192.168.1.111:9002/', //对应接口
+          target: 'http://192.168.0.108:9001/', //对应接口
           changeOrigin: true,
           ws: true,
           pathRewrite: {
